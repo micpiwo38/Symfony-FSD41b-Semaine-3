@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+CATEGORIES
+{% endblock %}
+
+{% block body %}
+<div class="row p-3 mt-3">
+    <h1 class="text-center text-warning">Liste des catégories</h1>
+    <a href="{{path('app_ajouter_categories')}}" class="btn btn-primary mt-3">Ajouter une catégorie</a>
+    {% for categorie in categories %}
+    <div class="col-md-4 col-sm-12 mt-3">
+        <div class="card h-100 p-3">{{categorie.name}}</div>
+    </div>
+
+    {% endfor %}
+</div>
+{% endblock %}

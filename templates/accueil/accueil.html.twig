@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}
+ACCUEIL
+{% endblock %}
+
+{% block body %}
+<div>
+    <h1 class="text-center text-warning">
+        SYMFONY UX
+    </h1>
+    <h2 class="text-center text-info" {{ stimulus_controller('symfony/ux-typed', { strings: ['Les dernieres inovations
+        Symfony', 'Symfony UX ajoute du javascript sans JS' , 'Symfony UX est simple' ], smartBackspace: true,
+        startDelay: 20, backSpeed: 10, backDelay: 20, loop: true, showCursor: false }) }}></h2>
+    <div class="text-center">
+        <a href="{{path('admin')}}" class="btn btn-primary mt-3">Espace d'administration</a>
+    </div>
+</div>
+{% endblock %}
