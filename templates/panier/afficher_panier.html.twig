@@ -63,6 +63,8 @@ Votre panier
 <h3 class="text-success">Total de la commande : {{total}} €</h3>
 <a href="{{path('app_vider_panier')}}" class="btn btn-primary">Vider le panier</a>
 <hr>
-<a href="" class="btn btn-success">Valider la commande</a>
+<a href="{{path('app_valider_commandes')}}" class="btn btn-success">Valider la commande</a>
+<hr>
+<a href="{{path('app_produits')}}" class="btn btn-secondary">Retour</a>
 <hr>
 {% endblock %}

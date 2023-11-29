@@ -22,9 +22,15 @@ Produits
         {% if app.user and is_granted('ROLE_ADMIN') %}
         <a href="{{path('admin')}}" class="btn btn-primary mt-3">Espace d'administration</a>
         {% endif %}
+
+
+        {% if app.user %}
+        <a href="{{path('app_resume_commande')}}" class="btn btn-info">Mes commandes</a>
+        {% endif %}
     </div>
     <h2 class="text-info">Nos produits</h2>
     <div class="row mt-3">
+
         {% for produit in produits %}
         <div class="col-md-3 col-sm-12">
             <div class="card h-100">

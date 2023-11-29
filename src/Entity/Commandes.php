@@ -24,16 +24,15 @@ class Commandes
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: CommandeDetails::class)]
+    #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: CommandeDetails::class, cascade:['persist'])]
     private Collection $commandeDetails;
 
-    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: CommandeDetails::class)]
-    private Collection $commande_details;
+
 
     public function __construct()
     {
         $this->commandeDetails = new ArrayCollection();
-        $this->commande_details = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
