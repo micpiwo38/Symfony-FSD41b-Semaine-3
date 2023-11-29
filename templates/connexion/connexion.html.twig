@@ -5,11 +5,11 @@ Connexion
 {% endblock %}
 
 {% block body %}
-<div class="container w-50 mx-auto shadow rounded mt-3 p-3">
+<div class="container w-50 mx-auto shadow rounded mt-3 p-3 bg-white">
     {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
+    <h1 class="text-center text-warning">CONNEXION</h1>
     <form action="{{ path('app_login') }}" method="post">
         <div class="mt-3">
             <label for="username">Email:</label>

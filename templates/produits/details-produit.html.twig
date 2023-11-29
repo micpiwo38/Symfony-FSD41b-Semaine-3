@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}
+Détails produits
+{% endblock %}
+
+{% block body %}
+<div>
+    <h1 class="text-center text-warning">
+        DÉTAILS DU PRODUIT
+    </h1>
+    <!--
+    <h2 class="text-center text-info h-50" {{ stimulus_controller('symfony/ux-typed', { strings: ['Les dernieres
+        inovations Symfony', 'Symfony UX ajoute du javascript sans JS' , 'Symfony UX est simple' ], smartBackspace:
+        true, startDelay: 20, backSpeed: 10, backDelay: 20, loop: true, showCursor: false }) }}></h2>
+    -->
+</div>
+<div>
+
+    <div class="container bg-white shadow p-3 mt-3 rounded text-warning">
+        <div class="">
+            {% for photos in produit.photos %}
+            <div class="text-center">
+                <img src="{{asset('build/images/' ~ photos)}}" class="img-fluid" width="25%" alt="...">
+            </div>
+            {% endfor %}
+            <div class="card-body">
+                <h2 class="card-title">{{produit.name}}</h2>
+                <p class="card-text">{{produit.description|raw}}</p>
+                <p>Catégorie : {{produit.categorie}}</p>
+                <p>Date de dépot : {{produit.createdAt|date('d/m/Y')}}</p>
+                <h3>Distributeurs : </h3>
+                {% for distributeurs in produit.distributeur %}
+                <ul class="list-group">
+                    <li class="list-group-item text-danger mt-3">{{distributeurs.name}}</li>
+                </ul>
+                {% endfor %}
+
+                <a href="{{path('app_panier',{id: produit.id})}}" class="btn btn-success mt-3">Ajouter au panier</a>
+
+                <a href="{{path('app_produits')}}" class="btn btn-primary mt-3">Retour</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

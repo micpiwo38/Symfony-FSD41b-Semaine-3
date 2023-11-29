@@ -25,9 +25,9 @@ class PhotosCrudController extends AbstractCrudController
             //Propriété de la table Photos
             ImageField::new('name')
                 //Par defaut en lecture seule -> chemin ou sont stocké les images
-                ->setBasePath('/img')
+                ->setBasePath('/build/images')
                 //Destination des images téléchargées
-                ->setUploadDir('public/img/')
+                ->setUploadDir('public/build/images/')
                 //Type de champ du formulaire => <input type="file"/>
                 ->setFormType(FileUploadType::class)
         ];

@@ -40,9 +40,9 @@ class ProduitsCrudController extends AbstractCrudController
             //Seulement sur la page d'accueil du Tableau de bord
                 ->onlyOnIndex()
                 //Par defaut en lecture seule -> chemin ou sont stocké les images
-                ->setBasePath('/img/')
+                ->setBasePath('/build/images')
                 //Destination des images téléchargées
-                ->setUploadDir('public/img/'),
+                ->setUploadDir('public/build/images/'),
                 //Accès à la collection de photo
             CollectionField::new('photos')
             //Seuelement sur la page Ajouter et Editer

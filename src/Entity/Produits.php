@@ -50,12 +50,16 @@ class Produits
     #[ORM\JoinColumn(nullable: true)]
     private ?References $reference = null;
 
+    #[ORM\OneToMany(mappedBy: 'produits', targetEntity: CommandeDetails::class)]
+    private Collection $commandeDetails;
+
     public function __construct()
     {
         $this->distributeur = new ArrayCollection();
         $this->photos = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->commandeDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,4 +228,36 @@ class Produits
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, CommandeDetails>
+     */
+    public function getCommandeDetails(): Collection
+    {
+        return $this->commandeDetails;
+    }
+
+    public function addCommandeDetail(CommandeDetails $commandeDetail): static
+    {
+        if (!$this->commandeDetails->contains($commandeDetail)) {
+            $this->commandeDetails->add($commandeDetail);
+            $commandeDetail->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeDetail(CommandeDetails $commandeDetail): static
+    {
+        if ($this->commandeDetails->removeElement($commandeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeDetail->getProduits() === $this) {
+                $commandeDetail->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }
