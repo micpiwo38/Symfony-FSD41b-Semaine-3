@@ -25,11 +25,7 @@ class CommandesController extends AbstractController{
         //Récuperer le panier à l'aide de SessionInterface
         $panier = $session->get('panier', []);
         //Si le panier est vide
-        if($panier === []){
-            $this->addFlash('warning', 'Votre panier est vide');
-            //On redirige vers la page de produits
-            return $this->redirectToRoute(('app_produits'));
-        }
+     
         //Le panier n'est pas vide on creer la commande
         //Instance de l'entité Commandes
         $commande = new Commandes();
