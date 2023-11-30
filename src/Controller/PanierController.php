@@ -76,7 +76,7 @@ class PanierController extends AbstractController{
             if(empty($panier[$produit_id])){
                 $panier[$produit_id] = 1;
             }else{
-                $panier[$produit_id]++;
+                $panier[$produit_id] += 1;
             }
             //On ajoute le panier a la session a l'aide du setter => (tableau associatif cle => valeur)
             $session->set('panier', $panier);

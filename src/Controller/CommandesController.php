@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Length;
 
 class CommandesController extends AbstractController{
     #[Route('/commandes', name:'app_valider_commandes')]
@@ -24,8 +25,6 @@ class CommandesController extends AbstractController{
         $this->denyAccessUnlessGranted('ROLE_USER');
         //Récuperer le panier à l'aide de SessionInterface
         $panier = $session->get('panier', []);
-        //Si le panier est vide
-     
         //Le panier n'est pas vide on creer la commande
         //Instance de l'entité Commandes
         $commande = new Commandes();
@@ -34,6 +33,8 @@ class CommandesController extends AbstractController{
         $commande->setUser($this->getUser());
         //Numero de la commande => id randrom
         $commande->setNumeroCmd(uniqid());
+        //Calcul du total
+        $total = 0;
         //Parcous du panier par reférence pour les details de la commande
         foreach($panier as $item => $quantite){
             //Instance de l'entité CommandeDetails
@@ -64,9 +65,20 @@ class CommandesController extends AbstractController{
         CommandesRepository $commandesRepository,
         CommandeDetailsRepository $commandeDetailsRepository 
     ):Response{
+        $details = $commandeDetailsRepository->findAll();
+        //dd($details);
+        $total = 0;
+        $element = 0;
+        foreach($details as $item){
+            $montant_total = $item->getPrix() * $item->getQuantite();
+            $total += $montant_total;
+            
+        }
         return $this->render('commandes/resume-commande.html.twig',[
             'commandes' => $commandesRepository->findAll(),
-            'details_commande' => $commandeDetailsRepository->findAll()
+            'details_commande' => $commandeDetailsRepository->findAll(),
+            'total' => $total
+            
         ]);
     }
 }

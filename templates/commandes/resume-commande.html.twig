@@ -1,18 +1,16 @@
 {% extends "base.html.twig" %}
-
 {% block body %}
-
-
 <h2 class="text-center text-success">Détails de votre commande</h2>
-
 {% for commande in app.user.commandes %}
 <div class="container bg-white shadow p-3 mt-3 rounded">
     <p class="text-success">Référence de la commande : {{commande.numeroCmd}}</p>
     <p class="text-danger">Votre email : {{commande.user.email}}</p>
     <p class="text-info">Date de la commande : {{commande.createdAt|date('d/m/y')}}</p>
+    <a href="{{path('app_paiement-stripe', {numero_cmd: commande.numeroCmd})}}" class="btn btn-success mt-3">Payer via
+        Stripe</a>
 </div>
 {% endfor %}
-<div class="row bg-white p-3 rounded shadow">
+<div class="row bg-white p-3 rounded shadow mt-3">
     <h3 class="text-center text-success">Détails de votre commande</h3>
     {% for details in details_commande %}
     <div class="col-md-3 col-sm-12">
@@ -21,8 +19,12 @@
             alt="{{details.produits.name}}" title="{{details.produits.name}}" />
         <div class="text-info">Quantité(s) : {{details.quantite}}</div>
         <h5 class="text-success mt-3">Prix : {{details.prix}} €</h5>
+        {% set montant_total = details.prix * details.quantite %}
+        <h4 class="text-warning">Sous-total : {{montant_total}} €</p>
+            {% set total = total + montant_total %}
     </div>
     {% endfor %}
+    <h2 class="text-success mt-3">TOTAL DE LA COMMANDE : {{total}} €</h2>
     <a href="" class="btn btn-primary">Payer la commande</a>
 </div>
 {% endblock %}
