@@ -20,9 +20,12 @@
     {% endblock %}
 </head>
 
-<body {{ stimulus_controller('symfony/ux-swup/swup', { containers: ['#swup'], animateHistoryBrowsing: true,
-    animationSelector: '[class*="transition-"]' , cache: true, theme: 'slide' , debug: true, }) }}>
+<body>
     {% include "_partials/flashbags.html.twig" %}
+    {% if app.user %}
+        {% include "_partials/navbar.html.twig" %}
+    {% endif %}
+    
     <div id="swup" class="container">
         {% block body %}{% endblock %}
     </div>

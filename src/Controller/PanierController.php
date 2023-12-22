@@ -62,24 +62,25 @@ class PanierController extends AbstractController{
     }
 
     //Ajouter une quantitée
-    #[Route('/afficher-quantite-panier/{id}', name:'app_ajouter_quantite_panier')]
+    #[Route('/ajouter-quantite-panier/{id}', name:'app_ajouter_quantite_panier')]
     public function ajouterQuantitePanier(
         Produits $produits, 
         SessionInterface $session) : Response {
             //Id du produit concerné
              //Récuperer l'id du produit concerner
-            $produit_id = $produits->getId();
+            $id = $produits->getId();
             //Recuperer le panier existant a l'aide du getter de la session
             //Par defaut dans la session le panier est vide (tableau associatif cle => valeur)
             $panier = $session->get('panier', []);
             //Si le panier est vide on ajoute l'id du produit => sinon on incremente
-            if(empty($panier[$produit_id])){
-                $panier[$produit_id] = 1;
+            if(!empty($panier[$id])){
+                $panier[$id] += 1;
             }else{
-                $panier[$produit_id] += 1;
+                $panier[$id] = 1;
             }
             //On ajoute le panier a la session a l'aide du setter => (tableau associatif cle => valeur)
             $session->set('panier', $panier);
+            //dd($session->get('panier'));
             //Une fois le produit ajouter on redirige vers la page panier
             return $this->redirectToRoute('app_afficher_panier');   
     }
@@ -91,20 +92,20 @@ class PanierController extends AbstractController{
          SessionInterface $session) : Response {
              //Id du produit concerné
               //Récuperer l'id du produit concerner
-             $produit_id = $produits->getId();
+             $id = $produits->getId();
              //Recuperer le panier existant a l'aide du getter de la session
              //Par defaut dans la session le panier est vide (tableau associatif cle => valeur)
              $panier = $session->get('panier', []);
              //On retire le produit du panier si il y a 1 seul exemplaire => Sinon on decremente
-             if(!empty($panier[$produit_id])){
+             if(!empty($panier[$id])){
                 //Si la quantite est > 1
-                if($panier[$produit_id] > 1){
-                    $panier[$produit_id]--;
+                if($panier[$id] > 1){
+                    $panier[$id]--;
                 }else{
                     //Defaire une variable php
                     //unset() détruit la ou les variables dont le nom a été passé en argument var. =>
                     // unset(mixed $var, mixed ...$vars): void
-                    unset($panier[$produit_id]);
+                    unset($panier[$id]);
                 }
              }
              //On ajoute le panier a la session a l'aide du setter => (tableau associatif cle => valeur)
@@ -121,13 +122,13 @@ class PanierController extends AbstractController{
      ):Response{
         //Id du produit concerné
              //Récuperer l'id du produit concerner
-             $produit_id = $produits->getId();
+             $id = $produits->getId();
              //Recuperer le panier existant a l'aide du getter de la session
              //Par defaut dans la session le panier est vide (tableau associatif cle => valeur)
              $panier = $session->get('panier', []);
              //Si le panier n'est pas vide, on detruit la variable de session via unset()
-             if(!empty($panier[$produit_id])){
-                unset($panier[$produit_id]);
+             if(!empty($panier[$id])){
+                unset($panier[$id]);
              }
              //On ajoute le panier a la session a l'aide du setter => (tableau associatif cle => valeur)
              $session->set('panier', $panier);

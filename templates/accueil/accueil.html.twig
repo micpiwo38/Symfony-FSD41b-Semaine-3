@@ -22,7 +22,7 @@ ACCUEIL
         {% if app.user and is_granted('ROLE_ADMIN') %}
         <a href="{{path('admin')}}" class="btn btn-primary mt-3">Espace d'administration</a>
         {% endif %}
-        {% if app.user.commandes %}
+        {% if app.user and app.user.commandes is not null %}
         <a href="{{path('app_valider_commandes')}}" class="btn btn-success mt-3">Vos commandes</a>
         {% endif %}
     </div>
@@ -31,16 +31,16 @@ ACCUEIL
         {% for produit in produits %}
         <div class="col-md-3 col-sm-12">
             <div class="card h-100">
-                {% for photos in produit.photos %}
+
                 <div class="d-flex justify-content-center">
-                    <img src="{{asset('build/images/' ~ photos)}}" width="25%" class="img-fluid mt-2" alt="" />
+                    <img src="{{asset('build/images/' ~ produit.photos[0].name)}}" class="card-img-top mt-2" alt="" />
                 </div>
 
-                {% endfor %}
+
                 <div class="card-body">
                     <h2 class="card-title">{{produit.name}}</h2>
                     <p>Catégorie : {{produit.categorie}}</p>
-                    <a href="{{path('app_details_produit',{slug: produit.slug})}}" class="btn btn-primary">Plus
+                    <a href="{{path('app_details_produit',{id: produit.id})}}" class="btn btn-primary">Plus
                         d'infos</a>
                 </div>
             </div>

@@ -2,15 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\ProduitsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\ProduitsRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProduitsRepository::class)]
+#[ApiResource]
 class Produits
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -22,7 +28,7 @@ class Produits
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type:'decimal', scale: 2, nullable: true)]
     private ?float $price = null;
 
     #[ORM\Column]
@@ -53,6 +59,9 @@ class Produits
     #[ORM\OneToMany(mappedBy: 'produits', targetEntity: CommandeDetails::class)]
     private Collection $commandeDetails;
 
+    #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Commentaires::class)]
+    private Collection $commentaire;
+
     public function __construct()
     {
         $this->distributeur = new ArrayCollection();
@@ -60,6 +69,7 @@ class Produits
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->commandeDetails = new ArrayCollection();
+        $this->commentaire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,6 +263,36 @@ class Produits
             // set the owning side to null (unless already changed)
             if ($commandeDetail->getProduits() === $this) {
                 $commandeDetail->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaires>
+     */
+    public function getCommentaire(): Collection
+    {
+        return $this->commentaire;
+    }
+
+    public function addCommentaire(Commentaires $commentaire): static
+    {
+        if (!$this->commentaire->contains($commentaire)) {
+            $this->commentaire->add($commentaire);
+            $commentaire->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaires $commentaire): static
+    {
+        if ($this->commentaire->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProduits() === $this) {
+                $commentaire->setProduits(null);
             }
         }
 
